@@ -42,5 +42,5 @@ Excel files (*.xls *.xlsx *.csv). </br>
 ![Animation](https://github.com/aalramadan/TransVisio/assets/55710790/c3d7d304-7afe-4241-a41c-e4baf56a6566)
 
 ## **Disclaimer**
-**TransVisio** is part of a collaborative research funded by the Abdul Hameed Shoman Foundation (Agreement Number: 230800351).
+**TransVisio** is part of a collaborative research funded by the Abdul Hameed Shoman Foundation (Agreement Number: 230800351). </br>
 Hosting Institution: The project is hosted by the English Language and Translation Department at the Applied Science Private University.</br>
