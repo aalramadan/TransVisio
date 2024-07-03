@@ -258,6 +258,10 @@
     <file>images/icons/info.png</file>
     <file>images/icons/warning.png</file>
   </qresource>
+  <qresource prefix="themes">
+    <file>theme/dark.qss</file>
+    <file>theme/light.qss</file>
+  </qresource>
   <qresource prefix="images">
     <file>images/images/icon.icns</file>
     <file>images/images/icon.ico</file>

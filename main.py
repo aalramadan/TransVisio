@@ -30,7 +30,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.chk_box_light.clicked.connect(lambda: ui_functions.theme_switch(self, self.chk_box_light))
         self.temp_slider.valueChanged.connect(lambda: ui_functions.temp_slider_changed(self))
         self.combo_model.currentIndexChanged.connect(lambda: ui_functions.reset_temp_slider(self))
-
+        
 if __name__ == "__main__":
     app = QApplication()
 

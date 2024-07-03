@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import (QMessageBox, QFileDialog, QTableWidgetItem,
                                QHeaderView,QAbstractItemView, QStyledItemDelegate, QTableWidgetItem)
-from PySide6.QtCore import QSize, QEasingCurve, QPropertyAnimation, Qt
+from PySide6.QtCore import QSize, QEasingCurve, QPropertyAnimation, Qt, QFile, QTextStream
 from PySide6.QtGui import QIcon, QMovie
 from srt import parse as parse_srt, compose as compose_srt
 from ass import parse as parse_ass
@@ -77,14 +77,18 @@ def theme_switch(main_window, checkbox):
         main_window.chk_box_dark.setChecked(False)
         main_window.chk_box_light.setEnabled(False)
         main_window.chk_box_dark.setEnabled(True)
-        theme_str = open("theme/light.qss", 'r').read()
-        main_window.CentralWidget.setStyleSheet(theme_str)
+        file = QFile(":/themes/theme/light.qss")
+        file.open(QFile.ReadOnly | QFile.Text)
+        stream = QTextStream(file)
+        main_window.CentralWidget.setStyleSheet(stream.readAll())
     elif checkbox == main_window.chk_box_dark:
         main_window.chk_box_light.setChecked(False)
         main_window.chk_box_dark.setEnabled(False)
         main_window.chk_box_light.setEnabled(True)
-        theme_str = open("theme/dark.qss", 'r').read()
-        main_window.CentralWidget.setStyleSheet(theme_str)
+        file = QFile(":/themes/theme/dark.qss")
+        file.open(QFile.ReadOnly | QFile.Text)
+        stream = QTextStream(file)
+        main_window.CentralWidget.setStyleSheet(stream.readAll())
 
 def temp_slider_changed(main_window):
     actual_value = main_window.temp_slider.value() / 100.0  # Convert the slider value to the actual value
@@ -144,12 +148,12 @@ async def load_template_file(main_window):
         if selected_file != "": # Needed in case dialog was simply opened and closed without selecting a file
             main_window.input.setText(selected_file) # Show path to selected file
             if selected_file.endswith('.srt'):
-                with open(selected_file, 'r', encoding='utf-8') as file: # Could throw FileNotFoundError
+                with open(selected_file, 'r', encoding="utf-8") as file:
                     template_content = file.read() 
                     template_file = list(parse_srt(template_content)) 
                     template_file_format = 'srt'
             elif selected_file.endswith('.ass') or selected_file.endswith('.ssa'):
-                with open(selected_file, 'r', encoding='utf-8') as file: # Could throw FileNotFoundError
+                with open(selected_file, 'r', encoding="utf-8") as file: 
                     template_file = parse_ass(file) 
                     template_file_format = 'ass-ssa'
             elif selected_file.endswith('.xlsx') or selected_file.endswith('.xls'):
@@ -214,7 +218,9 @@ def save_template_file(main_window):
         fileName, _ = QFileDialog.getSaveFileName(None,"Save File", "", filter, options=options)
         if fileName:
             for i, subtitle in enumerate(template_file.events):
-                subtitle.text = main_window.data_table.item(i, 1).text().strip()
+                text_column = main_window.data_table.item(i, 1)
+                if text_column is not None:
+                    subtitle.text = text_column.text().strip()
 
             with open(fileName, 'w', encoding="utf-8-sig") as file:
                 template_file.dump_file(file)  
@@ -226,15 +232,15 @@ def save_template_file(main_window):
         if fileName:
             translated_data = []
             for i in range(len(template_file)):
-                table_row_translation = main_window.data_table.item(i, 1)
-                if table_row_translation is not None:
-                    translated_data.append(main_window.data_table.item(i, 1).text().strip())
+                text_column = main_window.data_table.item(i, 1)
+                if text_column is not None:
+                    translated_data.append(text_column.text().strip())
             
             df = pd.DataFrame([template_file, translated_data]).T
             if '.csv' in fileName:
-                df.to_csv(fileName, index=False, header=False)
+                df.to_csv(fileName, index=False, header=False, encoding="utf-8-sig")
             else:
-                df.to_excel(fileName, index=False, header=False)
+                df.to_excel(fileName, index=False, header=False, encoding="utf-8")
             QMessageBox.information(main_window, "File Saved", "File was written successfully!")
         
     else:
@@ -242,9 +248,9 @@ def save_template_file(main_window):
         fileName, _ = QFileDialog.getSaveFileName(None,"Save File", "", filter, options=options)
         if fileName:
             for i, subtitle in enumerate(template_file):
-                table_row_translation = main_window.data_table.item(i, 1)
-                if table_row_translation is not None:
-                    subtitle.content = main_window.data_table.item(i, 1).text().strip()
+                text_column = main_window.data_table.item(i, 1)
+                if text_column is not None:
+                    subtitle.content = text_column.text().strip()
 
             with open(fileName, 'w', encoding="utf-8") as file:
                 file.write(compose_srt(template_file))  
@@ -276,54 +282,68 @@ def display_template_content(main_window):
         for i, sentence in enumerate(template_file.events):
             item = QTableWidgetItem(sentence.text)
             main_window.data_table.setItem(i, 0, item)
-            main_window.data_table.setItem(i, 1, QTableWidgetItem(""))
     elif template_file_format == 'excel':
         main_window.data_table.setRowCount(len(template_file))
         for i, sentence in enumerate(template_file):
             item = QTableWidgetItem(sentence)
             main_window.data_table.setItem(i, 0, item)
-            main_window.data_table.setItem(i, 1, QTableWidgetItem(""))
     else:
         main_window.data_table.setRowCount(len(template_file))
         for i, sentence in enumerate(template_file):
             item = QTableWidgetItem(sentence.content)
             main_window.data_table.setItem(i, 0, item)
-            main_window.data_table.setItem(i, 1, QTableWidgetItem(""))
 
 
-# Enable or disable the delete button based on row selection
 def items_selected(main_window):
-    indexes = main_window.data_table.selectedItems()
+    selectedItems = main_window.data_table.selectedItems()
     if not disable_delete:
-        if len(indexes) == 0:
-            main_window.btn_delete_row.setEnabled(False)
-        else:
+        # Check if any selected cell is not empty
+        if any(item.text().strip() != "" for item in selectedItems):
             main_window.btn_delete_row.setEnabled(True)
+        else:
+            main_window.btn_delete_row.setEnabled(False)
 
 
 def delete_row(main_window):
+    global template_file
     # Save table
     table_data = []
     for i in range(main_window.data_table.rowCount()):
-        row_data = []
-        for j in range(main_window.data_table.columnCount()):
-            item = main_window.data_table.item(i, j)
-            row_data.append(item.text() if item and item.text() else "")
+        row_data = [main_window.data_table.item(i, j).text().strip() if main_window.data_table.item(i, j) else "" for j in range(2)]
         table_data.append(row_data)
 
     # Mark for deletion
     selectedItems = main_window.data_table.selectedItems()
     for item in selectedItems:
         table_data[item.row()][item.column()] = None  # Mark the item for deletion
+        if template_file_format == 'excel':
+            if item.column() == 0:
+                template_file[item.row()] = None  # Mark the item for deletion in template_file
+        elif template_file_format == 'ass-ssa':
+            if item.column() == 0:
+                template_file.events[item.row()] = None  # Mark the item for deletion in template_file
+        else:
+            if item.column() == 0:
+                template_file[item.row()].content = None  # Mark the item for deletion in template_file
 
     # Delete
     main_window.data_table.setRowCount(0)  # Clear the table
+    main_window.data_table.setRowCount(len(table_data))
     for col in range(len(table_data[0])): 
         column_items = [row_data[col] for row_data in table_data if row_data[col] is not None]  # Skip deleted items
         for row, item in enumerate(column_items):
-            if row == main_window.data_table.rowCount():
-                main_window.data_table.insertRow(row)
             main_window.data_table.setItem(row, col, QTableWidgetItem(item))
+
+    for row in range(main_window.data_table.rowCount()):
+        if (main_window.data_table.item(row, 0) is None or main_window.data_table.item(row, 0).text().strip() == "") and (main_window.data_table.item(row, 1) is None or main_window.data_table.item(row, 1).text().strip() == ""):
+            main_window.data_table.removeRow(row)
+    
+
+    # Delete from template_file
+    if template_file_format == 'ass-ssa':
+        template_file.events = [event for event in template_file.events if event is not None]  # Remove deleted items
+    else:
+        template_file = [item for item in template_file if item is not None]  # Remove deleted items
 
 class RTLDelegate(QStyledItemDelegate):
     def initStyleOption(self, option, index):
