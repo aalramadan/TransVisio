@@ -39,6 +39,7 @@ Excel files (*.xls *.xlsx *.csv). </br>
 > Note: Make sure that you specify the API key for Whisper along with the **Start Time** and **Duration** before selecting the video/audio input.
 
 ## **Demo**
+![Animation](https://github.com/aalramadan/TransVisio/assets/55710790/c3d7d304-7afe-4241-a41c-e4baf56a6566)
 
 ## **Disclaimer**
 **TransVisio** is part of a collaborative research funded by the Abdul Hameed Shoman Foundation (Agreement Number: 230800351).
