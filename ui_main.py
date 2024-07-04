@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'mainHxyZqQ.ui'
+## Form generated from reading UI file 'mainmiqYna.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.2
 ##
@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1079, 877)
+        MainWindow.resize(891, 655)
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -237,16 +237,15 @@ class Ui_MainWindow(object):
 "/* /////////////////////////////////////////////////////////////////////////////////////////////////*/\n"
 "QScrollBar:vertical {\n"
 "	background: rgb(52, 59, 72);\n"
-"	width: 8px;\n"
 "}\n"
 "QScrollBar::handle:vertical {	\n"
 "	background-color: rgb(153, 204, 255);\n"
 "	min-height: 40px;\n"
 "}\n"
 "QScrollBar::add-line:vertical {\n"
-"	background: rgb(55, 63, 77"
-                        ");\n"
-"	height: 10px;\n"
+"	background: rgb(55, 63, 77);\n"
+"	height: 1"
+                        "0px;\n"
 "	border-bottom-left-radius: 4px;\n"
 "	border-bottom-right-radius: 4px;\n"
 "	subcontrol-position: bottom;\n"
@@ -268,7 +267,6 @@ class Ui_MainWindow(object):
 "\n"
 "QScrollBar:horizontal {\n"
 "    background: rgb(52, 59, 72);\n"
-"    height: 8px;\n"
 "}\n"
 "QScrollBar::handle:horizontal {\n"
 "    background: rgb(153, 204, 255);\n"
@@ -283,9 +281,9 @@ class Ui_MainWindow(object):
 "    subcontrol-position: right;\n"
 "}\n"
 "QScrollBar::sub-line:horizontal {\n"
-"   "
-                        " border: none;\n"
-"    background: rgb(55, 63, 77);\n"
+"    border: none;\n"
+"    background: rgb"
+                        "(55, 63, 77);\n"
 "    width: 10px;\n"
 "	border-top-left-radius: 4px;\n"
 "    border-bottom-left-radius: 4px;\n"
@@ -312,10 +310,10 @@ class Ui_MainWindow(object):
 "	border: 3px solid rgb(52, 59, 72);	\n"
 "	background-image: url(:/icons/images/icons/cil-check-alt.png);\n"
 "}\n"
-"/* /////////////////////////////////////////////////////////////////////////////////////////////////"
-                        " */\n"
+"/* ///////////////////////////////////////////////////////////////////////////////////////////////// */\n"
 "QTextBrowser {\n"
-"	background-color: transparent;\n"
+"	background"
+                        "-color: transparent;\n"
 "	border: none;\n"
 "}\n"
 "\n"
@@ -409,10 +407,11 @@ class Ui_MainWindow(object):
         self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
         self.scrollArea = QScrollArea(self.SettingsExpand)
         self.scrollArea.setObjectName(u"scrollArea")
+        self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 380, 869))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, -275, 380, 1056))
         self.verticalLayout_8 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_8.setSpacing(0)
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
@@ -457,7 +456,7 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_10.addWidget(self.combo_model)
 
-        self.horizontalSpacer = QSpacerItem(40, 9, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer = QSpacerItem(40, 12, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.verticalLayout_10.addItem(self.horizontalSpacer)
 
@@ -487,12 +486,10 @@ class Ui_MainWindow(object):
         self.textBrowser_3.setSizePolicy(sizePolicy2)
         self.textBrowser_3.setMinimumSize(QSize(0, 60))
         self.textBrowser_3.setMaximumSize(QSize(16777215, 60))
+        self.textBrowser_3.setOpenExternalLinks(True)
+        self.textBrowser_3.setOpenLinks(True)
 
         self.verticalLayout_10.addWidget(self.textBrowser_3)
-
-        self.horizontalSpacer_5 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.verticalLayout_10.addItem(self.horizontalSpacer_5)
 
         self.gridLayout_3 = QGridLayout()
         self.gridLayout_3.setObjectName(u"gridLayout_3")
@@ -517,9 +514,74 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_10.addLayout(self.gridLayout_3)
 
-        self.horizontalSpacer_2 = QSpacerItem(40, 11, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.textBrowser_5 = QTextBrowser(self.ModelFrame)
+        self.textBrowser_5.setObjectName(u"textBrowser_5")
+        self.textBrowser_5.setMinimumSize(QSize(0, 25))
+        self.textBrowser_5.setMaximumSize(QSize(16777215, 25))
 
-        self.verticalLayout_10.addItem(self.horizontalSpacer_2)
+        self.verticalLayout_10.addWidget(self.textBrowser_5)
+
+        self.gridLayout_5 = QGridLayout()
+        self.gridLayout_5.setObjectName(u"gridLayout_5")
+        self.label = QLabel(self.ModelFrame)
+        self.label.setObjectName(u"label")
+        self.label.setMaximumSize(QSize(90, 16777215))
+
+        self.gridLayout_5.addWidget(self.label, 0, 0, 1, 1)
+
+        self.temp_slider = QSlider(self.ModelFrame)
+        self.temp_slider.setObjectName(u"temp_slider")
+        self.temp_slider.setMinimumSize(QSize(0, 30))
+        self.temp_slider.setMaximum(200)
+        self.temp_slider.setSingleStep(1)
+        self.temp_slider.setSliderPosition(100)
+        self.temp_slider.setOrientation(Qt.Orientation.Horizontal)
+
+        self.gridLayout_5.addWidget(self.temp_slider, 0, 1, 1, 1)
+
+        self.lbl_temp = QLabel(self.ModelFrame)
+        self.lbl_temp.setObjectName(u"lbl_temp")
+        self.lbl_temp.setMinimumSize(QSize(50, 0))
+        self.lbl_temp.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.gridLayout_5.addWidget(self.lbl_temp, 0, 2, 1, 1)
+
+
+        self.verticalLayout_10.addLayout(self.gridLayout_5)
+
+        self.textBrowser = QTextBrowser(self.ModelFrame)
+        self.textBrowser.setObjectName(u"textBrowser")
+        sizePolicy2.setHeightForWidth(self.textBrowser.sizePolicy().hasHeightForWidth())
+        self.textBrowser.setSizePolicy(sizePolicy2)
+        self.textBrowser.setMinimumSize(QSize(0, 80))
+        self.textBrowser.setMaximumSize(QSize(16777215, 80))
+
+        self.verticalLayout_10.addWidget(self.textBrowser)
+
+        self.lineEdit = QLineEdit(self.ModelFrame)
+        self.lineEdit.setObjectName(u"lineEdit")
+        self.lineEdit.setEnabled(False)
+        self.lineEdit.setMaximumSize(QSize(16777215, 2))
+        self.lineEdit.setAutoFillBackground(False)
+
+        self.verticalLayout_10.addWidget(self.lineEdit)
+
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.verticalLayout_10.addItem(self.horizontalSpacer_3)
+
+        self.label_2 = QLabel(self.ModelFrame)
+        self.label_2.setObjectName(u"label_2")
+
+        self.verticalLayout_10.addWidget(self.label_2)
+
+        self.combo_model_whisper = QComboBox(self.ModelFrame)
+        self.combo_model_whisper.addItem("")
+        self.combo_model_whisper.addItem("")
+        self.combo_model_whisper.setObjectName(u"combo_model_whisper")
+        self.combo_model_whisper.setMinimumSize(QSize(0, 50))
+
+        self.verticalLayout_10.addWidget(self.combo_model_whisper)
 
         self.lbl_api_key_for_whisper = QLabel(self.ModelFrame)
         self.lbl_api_key_for_whisper.setObjectName(u"lbl_api_key_for_whisper")
@@ -530,6 +592,7 @@ class Ui_MainWindow(object):
 
         self.api_key_whisper = QLineEdit(self.ModelFrame)
         self.api_key_whisper.setObjectName(u"api_key_whisper")
+        self.api_key_whisper.setEnabled(False)
         sizePolicy2.setHeightForWidth(self.api_key_whisper.sizePolicy().hasHeightForWidth())
         self.api_key_whisper.setSizePolicy(sizePolicy2)
         self.api_key_whisper.setMinimumSize(QSize(0, 50))
@@ -537,21 +600,46 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_10.addWidget(self.api_key_whisper)
 
+        self.label_3 = QLabel(self.ModelFrame)
+        self.label_3.setObjectName(u"label_3")
+
+        self.verticalLayout_10.addWidget(self.label_3)
+
+        self.combo_model_size = QComboBox(self.ModelFrame)
+        self.combo_model_size.addItem("")
+        self.combo_model_size.addItem("")
+        self.combo_model_size.addItem("")
+        self.combo_model_size.addItem("")
+        self.combo_model_size.addItem("")
+        self.combo_model_size.addItem("")
+        self.combo_model_size.addItem("")
+        self.combo_model_size.addItem("")
+        self.combo_model_size.addItem("")
+        self.combo_model_size.addItem("")
+        self.combo_model_size.setObjectName(u"combo_model_size")
+        self.combo_model_size.setEnabled(True)
+        self.combo_model_size.setMinimumSize(QSize(0, 50))
+
+        self.verticalLayout_10.addWidget(self.combo_model_size)
+
         self.textBrowser_2 = QTextBrowser(self.ModelFrame)
         self.textBrowser_2.setObjectName(u"textBrowser_2")
         sizePolicy2.setHeightForWidth(self.textBrowser_2.sizePolicy().hasHeightForWidth())
         self.textBrowser_2.setSizePolicy(sizePolicy2)
-        self.textBrowser_2.setMinimumSize(QSize(0, 40))
-        self.textBrowser_2.setMaximumSize(QSize(16777215, 40))
+        self.textBrowser_2.setMinimumSize(QSize(0, 75))
+        self.textBrowser_2.setMaximumSize(QSize(16777215, 75))
 
         self.verticalLayout_10.addWidget(self.textBrowser_2)
 
-        self.horizontalSpacer_6 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.verticalLayout_10.addItem(self.horizontalSpacer_6)
-
         self.gridLayout_6 = QGridLayout()
         self.gridLayout_6.setObjectName(u"gridLayout_6")
+        self.lbl_duration = QLabel(self.ModelFrame)
+        self.lbl_duration.setObjectName(u"lbl_duration")
+        sizePolicy2.setHeightForWidth(self.lbl_duration.sizePolicy().hasHeightForWidth())
+        self.lbl_duration.setSizePolicy(sizePolicy2)
+
+        self.gridLayout_6.addWidget(self.lbl_duration, 0, 1, 1, 1)
+
         self.start_time = QLineEdit(self.ModelFrame)
         self.start_time.setObjectName(u"start_time")
         sizePolicy2.setHeightForWidth(self.start_time.sizePolicy().hasHeightForWidth())
@@ -575,56 +663,24 @@ class Ui_MainWindow(object):
 
         self.gridLayout_6.addWidget(self.lbl_start_time, 0, 0, 1, 1)
 
-        self.lbl_duration = QLabel(self.ModelFrame)
-        self.lbl_duration.setObjectName(u"lbl_duration")
-        sizePolicy2.setHeightForWidth(self.lbl_duration.sizePolicy().hasHeightForWidth())
-        self.lbl_duration.setSizePolicy(sizePolicy2)
-
-        self.gridLayout_6.addWidget(self.lbl_duration, 0, 1, 1, 1)
-
 
         self.verticalLayout_10.addLayout(self.gridLayout_6)
 
-        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.textBrowser_4 = QTextBrowser(self.ModelFrame)
+        self.textBrowser_4.setObjectName(u"textBrowser_4")
+        sizePolicy2.setHeightForWidth(self.textBrowser_4.sizePolicy().hasHeightForWidth())
+        self.textBrowser_4.setSizePolicy(sizePolicy2)
+        self.textBrowser_4.setMinimumSize(QSize(0, 60))
+        self.textBrowser_4.setMaximumSize(QSize(16777215, 60))
 
-        self.verticalLayout_10.addItem(self.horizontalSpacer_3)
+        self.verticalLayout_10.addWidget(self.textBrowser_4)
 
-        self.gridLayout_5 = QGridLayout()
-        self.gridLayout_5.setObjectName(u"gridLayout_5")
-        self.temp_slider = QSlider(self.ModelFrame)
-        self.temp_slider.setObjectName(u"temp_slider")
-        self.temp_slider.setMinimumSize(QSize(0, 30))
-        self.temp_slider.setMaximum(200)
-        self.temp_slider.setSingleStep(1)
-        self.temp_slider.setSliderPosition(100)
-        self.temp_slider.setOrientation(Qt.Orientation.Horizontal)
+        self.lineEdit_2 = QLineEdit(self.ModelFrame)
+        self.lineEdit_2.setObjectName(u"lineEdit_2")
+        self.lineEdit_2.setEnabled(False)
+        self.lineEdit_2.setMaximumSize(QSize(16777215, 2))
 
-        self.gridLayout_5.addWidget(self.temp_slider, 0, 1, 1, 1)
-
-        self.label = QLabel(self.ModelFrame)
-        self.label.setObjectName(u"label")
-        self.label.setMaximumSize(QSize(90, 16777215))
-
-        self.gridLayout_5.addWidget(self.label, 0, 0, 1, 1)
-
-        self.lbl_temp = QLabel(self.ModelFrame)
-        self.lbl_temp.setObjectName(u"lbl_temp")
-        self.lbl_temp.setMinimumSize(QSize(50, 0))
-        self.lbl_temp.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-        self.gridLayout_5.addWidget(self.lbl_temp, 0, 2, 1, 1)
-
-
-        self.verticalLayout_10.addLayout(self.gridLayout_5)
-
-        self.textBrowser = QTextBrowser(self.ModelFrame)
-        self.textBrowser.setObjectName(u"textBrowser")
-        sizePolicy2.setHeightForWidth(self.textBrowser.sizePolicy().hasHeightForWidth())
-        self.textBrowser.setSizePolicy(sizePolicy2)
-        self.textBrowser.setMinimumSize(QSize(0, 80))
-        self.textBrowser.setMaximumSize(QSize(16777215, 80))
-
-        self.verticalLayout_10.addWidget(self.textBrowser)
+        self.verticalLayout_10.addWidget(self.lineEdit_2)
 
         self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
@@ -817,7 +873,7 @@ class Ui_MainWindow(object):
         self.ScrollArea.setWidgetResizable(True)
         self.ScrollAreaWidgetContents = QWidget()
         self.ScrollAreaWidgetContents.setObjectName(u"ScrollAreaWidgetContents")
-        self.ScrollAreaWidgetContents.setGeometry(QRect(0, 0, 92, 64))
+        self.ScrollAreaWidgetContents.setGeometry(QRect(0, 0, 88, 76))
         self.verticalLayout_5 = QVBoxLayout(self.ScrollAreaWidgetContents)
         self.verticalLayout_5.setSpacing(0)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
@@ -972,7 +1028,7 @@ class Ui_MainWindow(object):
 
         self.lbl_api_key.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>API Key:</p></body></html>", None))
         self.api_key.setText("")
-        self.api_key.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Check Model's API Website", None))
+        self.api_key.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Check links below", None))
         self.textBrowser_3.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -980,27 +1036,20 @@ class Ui_MainWindow(object):
 "li.unchecked::marker { content: \"\\2610\"; }\n"
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Tahoma'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt; color:#d0d0d0;\">Go here to obtain API Keys</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt; color:#d0d0d0;\">Gemini Models: </span><a href=\"https://aistudio.google.com/app/apikey\"><span style=\" font-size:10pt; text-decoration: underline; color:#3573e8;"
-                        "\">https://aistudio.google.com/app/apikey</span></a><span style=\" font-size:10pt;\"><br /></span><span style=\" font-size:10pt; color:#d0d0d0;\">GPT Models:</span><span style=\" font-size:10pt;\"> </span><a href=\"https://platform.openai.com/api-keys\"><span style=\" font-size:10pt; text-decoration: underline; color:#3573e8;\">https://platform.openai.com/api-keys</span></a></p></body></html>", None))
-        self.input_size.setText(QCoreApplication.translate("MainWindow", u"200", None))
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt; color:#d0d0d0;\">Go here to obtain API Keys:</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt; color:#d0d0d0;\">Gemini Models: </span><a href=\"https://aistudio.google.com/app/apikey\"><span style=\" font-size:10pt; text-decoration: underline; color:#2fbdfa"
+                        ";\">https://aistudio.google.com/app/apikey</span></a><span style=\" font-size:10pt;\"><br /></span><span style=\" font-size:10pt; color:#d0d0d0;\">GPT Models:</span><span style=\" font-size:10pt;\"> </span><a href=\"https://platform.openai.com/api-keys\"><span style=\" font-size:10pt; text-decoration: underline; color:#2fbdfa;\">https://platform.openai.com/api-keys</span></a></p></body></html>", None))
+        self.input_size.setText(QCoreApplication.translate("MainWindow", u"25", None))
         self.input_size.setPlaceholderText("")
         self.lbl_input_size.setText(QCoreApplication.translate("MainWindow", u"Input Size (Sentences)", None))
-        self.lbl_api_key_for_whisper.setText(QCoreApplication.translate("MainWindow", u"API Key for Video/Audio Input:", None))
-        self.api_key_whisper.setText("")
-        self.api_key_whisper.setPlaceholderText(QCoreApplication.translate("MainWindow", u"https://platform.openai.com/api-keys", None))
-        self.textBrowser_2.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+        self.textBrowser_5.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "hr { height: 1px; border-width: 0; }\n"
 "li.unchecked::marker { content: \"\\2610\"; }\n"
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Tahoma'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt; color:#d0d0d0;\">Used to extract text from Video/Audio input<br />Model used: OpenAI Whisper</span></p></body></html>", None))
-        self.start_time.setText(QCoreApplication.translate("MainWindow", u"00:00:00", None))
-        self.duration.setText(QCoreApplication.translate("MainWindow", u"Max", None))
-        self.lbl_start_time.setText(QCoreApplication.translate("MainWindow", u"Start Time (HH:MM:SS)", None))
-        self.lbl_duration.setText(QCoreApplication.translate("MainWindow", u"Duration (Seconds)", None))
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt; color:#d0d0d0;\">Number of sentences to be translated at once.</span></p></body></html>", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Temperature", None))
         self.lbl_temp.setText(QCoreApplication.translate("MainWindow", u"1.00", None))
         self.textBrowser.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
@@ -1011,11 +1060,52 @@ class Ui_MainWindow(object):
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Tahoma'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt; color:#d0d0d0;\">Controls the randomness of the model\u2019s output. A lower value makes the output more deterministic and focused, while a higher value makes the output more diverse and creative.</span></p></body></html>", None))
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Model (Video/Audio Input Only):", None))
+        self.combo_model_whisper.setItemText(0, QCoreApplication.translate("MainWindow", u"Faster-Whisper v1.0.3 (Offline)", None))
+        self.combo_model_whisper.setItemText(1, QCoreApplication.translate("MainWindow", u"Whisper v20231117 (Online)", None))
+
+        self.lbl_api_key_for_whisper.setText(QCoreApplication.translate("MainWindow", u"API Key (Online Version Only):", None))
+        self.api_key_whisper.setText("")
+        self.api_key_whisper.setPlaceholderText(QCoreApplication.translate("MainWindow", u"https://platform.openai.com/api-keys", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Model Size (Offline Version Only):", None))
+        self.combo_model_size.setItemText(0, QCoreApplication.translate("MainWindow", u"tiny", None))
+        self.combo_model_size.setItemText(1, QCoreApplication.translate("MainWindow", u"base", None))
+        self.combo_model_size.setItemText(2, QCoreApplication.translate("MainWindow", u"small", None))
+        self.combo_model_size.setItemText(3, QCoreApplication.translate("MainWindow", u"medium", None))
+        self.combo_model_size.setItemText(4, QCoreApplication.translate("MainWindow", u"large", None))
+        self.combo_model_size.setItemText(5, QCoreApplication.translate("MainWindow", u"large-v1", None))
+        self.combo_model_size.setItemText(6, QCoreApplication.translate("MainWindow", u"large-v2", None))
+        self.combo_model_size.setItemText(7, QCoreApplication.translate("MainWindow", u"large-v3", None))
+        self.combo_model_size.setItemText(8, QCoreApplication.translate("MainWindow", u"distil-large-v2", None))
+        self.combo_model_size.setItemText(9, QCoreApplication.translate("MainWindow", u"distil-large-v3", None))
+
+        self.textBrowser_2.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:'Tahoma'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt; color:#d0d0d0;\">Used to transcribe video/audio input into text.<br />Whisper (Online) audio input is limited to 25 MB.</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt; color:#d0d0d0;\">Faster-Whisper (Offline) will need to download the model on first use."
+                        "</span></p></body></html>", None))
+        self.lbl_duration.setText(QCoreApplication.translate("MainWindow", u"Duration (Seconds)", None))
+        self.start_time.setText(QCoreApplication.translate("MainWindow", u"00:00:00", None))
+        self.duration.setText(QCoreApplication.translate("MainWindow", u"Max", None))
+        self.lbl_start_time.setText(QCoreApplication.translate("MainWindow", u"Start Time (HH:MM:SS)", None))
+        self.textBrowser_4.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:'Tahoma'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Tahoma','sans-serif'; font-size:10pt; color:#d0d0d0;\">Specifies the Start Time and Duration for Video/Audio input.<br />For example, [00:05:00 - 200] will start transcribing at minute 5 for a duration of 200 seconds.</span></p></body></html>", None))
         self.chk_box_dark.setText(QCoreApplication.translate("MainWindow", u"Dark", None))
         self.lbl_theme_2.setText(QCoreApplication.translate("MainWindow", u"Theme", None))
         self.chk_box_light.setText(QCoreApplication.translate("MainWindow", u"Light", None))
         self.input.setText("")
-        self.input.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Select a subtitle file or load a local video", None))
+        self.input.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Click open to select an input", None))
         self.lbl_input.setText(QCoreApplication.translate("MainWindow", u"Input", None))
         self.btn_open.setText(QCoreApplication.translate("MainWindow", u"Open", None))
         self.lbl_language.setText(QCoreApplication.translate("MainWindow", u"Target Language", None))

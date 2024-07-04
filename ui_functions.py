@@ -7,6 +7,9 @@ from ass import parse as parse_ass
 from openai import OpenAI
 from qasync import asyncSlot
 from asyncio import sleep
+from audio_extract import extract_audio
+from faster_whisper import WhisperModel
+from datetime import timedelta
 import json
 import re
 import google.generativeai as genai
@@ -14,8 +17,9 @@ import asyncio
 import os
 import uuid
 import pandas as pd
-from audio_extract import extract_audio
+import torch
 
+os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE" # Needed to get faster-whisper to work
 
 template_file = None # Stores the loaded .srt file
 template_loaded = False # Checked if template is loaded. Needed so that "Next" button doesn't keep loading the same file.
@@ -102,6 +106,14 @@ def reset_temp_slider(main_window):
         main_window.temp_slider.setValue(50)
         main_window.temp_slider.setMaximum(100)
 
+def switch_whisper_models(main_window):
+    if main_window.combo_model_whisper.currentIndex() == 0:
+        main_window.api_key_whisper.setEnabled(True)
+        main_window.combo_model_size.setEnabled(False)
+    else:
+        main_window.api_key_whisper.setEnabled(False)
+        main_window.combo_model_size.setEnabled(True)
+
 
 def expand_settings(main_window):
     width = main_window.SettingsExpand.width()
@@ -167,11 +179,13 @@ async def load_template_file(main_window):
                 template_file_format = 'excel'
             else:
                 api_key_whisper =  main_window.api_key_whisper.text().strip()
-                if not api_key_whisper:
-                    issue_warning_error(main_window, "No API Key", "Please provide an API key")
+                if not api_key_whisper and main_window.combo_model_whisper.currentText() != "Faster-Whisper v1.0.3 (Offline)":
+                    issue_warning_error(main_window, "No API Key", "Please provide an API key for the online model")
+                    loading_gif(main_window, 'stop')
                     return
                 
-                srt_string = await asyncio.get_event_loop().run_in_executor(None, extract_text_from_video, main_window, selected_file, api_key_whisper)  
+                #srt_string = await asyncio.get_event_loop().run_in_executor(None, extract_text_from_video, main_window, selected_file, api_key_whisper)  
+                srt_string = extract_text_from_video(main_window, selected_file, api_key_whisper)  
                 template_file = list(parse_srt(srt_string)) 
 
             # Only enable next button if input was processed correctly                      
@@ -199,15 +213,31 @@ def extract_text_from_video(main_window, selected_file, api_key_whisper):
 
     extract_audio(selected_file, filename, "mp3", main_window.start_time.text(), duration= duration, overwrite=True)
 
-    # Whisper currently supports mp3, mp4, mpeg, mpga, m4a, wav, and webm
-    client = OpenAI(api_key = api_key_whisper)
-    with open(filename, "rb") as audio_file: # Open read-only as binary
-        transcription = client.audio.transcriptions.create(model="whisper-1", file=audio_file, response_format='srt')   
+    if main_window.combo_model_whisper.currentText() == "Whisper v20231117 (Online)":
+        # Whisper currently supports mp3, mp4, mpeg, mpga, m4a, wav, and webm
+        client = OpenAI(api_key = api_key_whisper)
+        with open(filename, "rb") as audio_file: # Open read-only as binary
+            output = client.audio.transcriptions.create(model="whisper-1", file=audio_file, response_format='srt')  
+        os.remove(filename)
+        return output 
+    else:
+        device = 'gpu' if torch.cuda.is_available() else 'cpu'
+        model = WhisperModel(main_window.combo_model_size.currentText(), device=device)
+        output, info = model.transcribe(filename)
+        srt_string = ""
+        for i, segment in enumerate(output):
+            start_seconds = int(segment.start)
+            start_milliseconds = int((segment.start - start_seconds) * 1000)
+            end_seconds = int(segment.end)
+            end_milliseconds = int((segment.end - end_seconds) * 1000)
 
-    os.remove(filename)
-    
-    return transcription
+            start_time = f"{str(timedelta(seconds=start_seconds))},{str(start_milliseconds).zfill(3)}"
+            end_time = f"{str(timedelta(seconds=end_seconds))},{str(end_milliseconds).zfill(3)}"
 
+            text = segment.text
+            srt_string += f"{i+1}\n{start_time} --> {end_time}\n{text}\n\n"
+        os.remove(filename)
+        return srt_string
     
 def save_template_file(main_window):
     global template_file
@@ -498,7 +528,6 @@ async def communicate_with_api(main_window):
                     except:
                         translations_sentences = re.findall(r'": "(.*?)(?="[,}])', response)
                 
-
                     if len(translations_sentences) != len(outer_value.values()):
                         continue
                 
