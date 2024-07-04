@@ -1,5 +1,5 @@
 # **TransVisio**
-![alt text](image.png)
+![image](https://github.com/aalramadan/TransVisio/assets/55710790/e3c631d6-1c8d-4fd4-b122-9cbceb302ac1)
 
 ## **💡What does it do?**
 **TransVisio** provides translations for multiple languages using Large Language Models (LLMs). It takes inputs in various formats (e.g., subtitle file or a video) and it extracts the text  
