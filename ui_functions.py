@@ -182,10 +182,8 @@ async def load_template_file(main_window):
                 if not api_key_whisper and main_window.combo_model_whisper.currentText() != "Faster-Whisper v1.0.3 (Offline)":
                     issue_warning_error(main_window, "No API Key", "Please provide an API key for the online model")
                     loading_gif(main_window, 'stop')
-                    return
-                
-                #srt_string = await asyncio.get_event_loop().run_in_executor(None, extract_text_from_video, main_window, selected_file, api_key_whisper)  
-                srt_string = extract_text_from_video(main_window, selected_file, api_key_whisper)  
+                    return        
+                srt_string = await asyncio.get_event_loop().run_in_executor(None, extract_text_from_video, main_window, selected_file, api_key_whisper)   
                 template_file = list(parse_srt(srt_string)) 
 
             # Only enable next button if input was processed correctly                      
