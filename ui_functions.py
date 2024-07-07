@@ -5,21 +5,21 @@ from PySide6.QtGui import QIcon, QMovie
 from srt import parse as parse_srt, compose as compose_srt
 from ass import parse as parse_ass
 from openai import OpenAI
-from qasync import asyncSlot
-from asyncio import sleep
+from qasync import asyncSlot, QEventLoop
+from asyncio import sleep, get_event_loop, set_event_loop
 from audio_extract import extract_audio
 from faster_whisper import WhisperModel
 from datetime import timedelta
-import json
-import re
-import google.generativeai as genai
-import asyncio
-import os
-import uuid
-import pandas as pd
-import torch
+from torch import cuda
+from pandas import ExcelFile, read_csv, DataFrame
+from json import loads, dumps
+from re import findall
+from google.generativeai import GenerativeModel, configure, types
+from os import environ, remove
+from uuid import uuid4
 
-os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE" # Needed to get faster-whisper to work
+
+environ["KMP_DUPLICATE_LIB_OK"]="TRUE" # Needed to get faster-whisper to work
 
 template_file = None # Stores the loaded .srt file
 template_loaded = False # Checked if template is loaded. Needed so that "Next" button doesn't keep loading the same file.
@@ -41,15 +41,13 @@ class SETTINGS:
     MODEL_MAP = {
     "GPT-4o": "gpt-4o",
     "GPT-4 Turbo": "gpt-4-turbo",
-    "GPT-4": "gpt-4",
     "GPT-3.5 Turbo": "gpt-3.5-turbo",
     "Gemini 1.5 Pro": "gemini-1.5-pro",
     "Gemini 1.5 Flash": "gemini-1.5-flash",
-    "Gemini 1.0 Pro": "gemini-1.0-pro"
     }
 
-    OPENAI_MODEL = set(["gpt-4", "gpt-3.5-turbo"])
-    GEMINI_MODEL = set(["gemini-1.5-pro", "gemini-1.5-flash", "gemini-1.0-pro"])
+    OPENAI_MODEL = set(["gpt-4o", "gpt-4-turbo", "gpt-3.5-turbo"])
+    GEMINI_MODEL = set(["gemini-1.5-pro", "gemini-1.5-flash"])
     GEMINI_SAFETY = [
         {
             "category": "HARM_CATEGORY_HARASSMENT",
@@ -69,6 +67,8 @@ class SETTINGS:
         },
     ]
 
+    INPUT_OPTIONS = ["Subtitle files (*.srt *.ass *.ssa)", "Video files (*.mp4 *.mkv *.webm *.flv *.avi *.mov *.wmv *.m4v)", "Audio files (*.wav *.ogg *.mp3 *.aac *.flac *.m4a *.oga *.opus)", "Excel files (*.xlsx *.csv)"]
+
 
 def button_click(main_window, btn):
     btn_name = btn.objectName()
@@ -81,10 +81,11 @@ def theme_switch(main_window, checkbox):
         main_window.chk_box_dark.setChecked(False)
         main_window.chk_box_light.setEnabled(False)
         main_window.chk_box_dark.setEnabled(True)
-        file = QFile(":/themes/theme/light.qss")
+        file = QFile(":/themes/theme/light.qss") # QFile does not support 'with'
         file.open(QFile.ReadOnly | QFile.Text)
         stream = QTextStream(file)
         main_window.CentralWidget.setStyleSheet(stream.readAll())
+        file.close()
     elif checkbox == main_window.chk_box_dark:
         main_window.chk_box_light.setChecked(False)
         main_window.chk_box_dark.setEnabled(False)
@@ -93,6 +94,7 @@ def theme_switch(main_window, checkbox):
         file.open(QFile.ReadOnly | QFile.Text)
         stream = QTextStream(file)
         main_window.CentralWidget.setStyleSheet(stream.readAll())
+        file.close()
 
 def temp_slider_changed(main_window):
     actual_value = main_window.temp_slider.value() / 100.0  # Convert the slider value to the actual value
@@ -108,38 +110,35 @@ def reset_temp_slider(main_window):
 
 def switch_whisper_models(main_window):
     if main_window.combo_model_whisper.currentIndex() == 0:
-        main_window.api_key_whisper.setEnabled(True)
-        main_window.combo_model_size.setEnabled(False)
-    else:
         main_window.api_key_whisper.setEnabled(False)
         main_window.combo_model_size.setEnabled(True)
+    else:
+        main_window.api_key_whisper.setEnabled(True)
+        main_window.combo_model_size.setEnabled(False)
 
+def animate_widget(main_window, widget, next_widget=None):
+    width = widget.width()
+    width_extended = SETTINGS.EXPAND_WIDTH if width == 0 else 0
+    main_window.animate_expand = QPropertyAnimation(widget, b"minimumWidth")
+    main_window.animate_expand.setDuration(SETTINGS.TIME_ANIMATION)
+    main_window.animate_expand.setStartValue(width)
+    main_window.animate_expand.setEndValue(width_extended)
+    main_window.animate_expand.setEasingCurve(QEasingCurve.InOutQuart)
+    main_window.animate_expand.finished.connect(lambda: animate_widget(main_window, next_widget) if next_widget else None)
+    main_window.animate_expand.start()
 
 def expand_settings(main_window):
-    width = main_window.SettingsExpand.width()
-    if width == 0:
-        widthExtended = SETTINGS.EXPAND_WIDTH 
+    if main_window.AboutFrame.width() == SETTINGS.EXPAND_WIDTH:
+        animate_widget(main_window, main_window.AboutFrame, main_window.SettingsExpand)
     else:
-        widthExtended = 0   
-    main_window.left_box = QPropertyAnimation(main_window.SettingsExpand, b"minimumWidth")
-    main_window.left_box.setDuration(SETTINGS.TIME_ANIMATION)
-    main_window.left_box.setStartValue(width)
-    main_window.left_box.setEndValue(widthExtended)
-    main_window.left_box.setEasingCurve(QEasingCurve.InOutQuart)
-    main_window.left_box.start()
+        animate_widget(main_window, main_window.SettingsExpand)
 
 def expand_about(main_window):
-    width = main_window.AboutFrame.width()
-    if width == 0:
-        widthExtended = SETTINGS.EXPAND_WIDTH 
+    if main_window.SettingsExpand.width() == SETTINGS.EXPAND_WIDTH:
+        animate_widget(main_window, main_window.SettingsExpand, main_window.AboutFrame)
     else:
-        widthExtended = 0   
-    main_window.left_box = QPropertyAnimation(main_window.AboutFrame, b"minimumWidth")
-    main_window.left_box.setDuration(SETTINGS.TIME_ANIMATION)
-    main_window.left_box.setStartValue(width)
-    main_window.left_box.setEndValue(widthExtended)
-    main_window.left_box.setEasingCurve(QEasingCurve.InOutQuart)
-    main_window.left_box.start()
+        animate_widget(main_window, main_window.AboutFrame)
+
 
 def issue_warning_error(main_window, title, text): 
     QMessageBox.warning(main_window, title, text)
@@ -152,7 +151,7 @@ async def load_template_file(main_window):
     global template_file
     global template_file_format
     dialog = QFileDialog()
-    dialog.setNameFilters(["Subtitle files (*.srt *.ass *.ssa)", "Video files (*.mp4 *.mkv *.webm *.flv *.avi *.mov *.wmv *.m4v)", "Audio files (*.wav *.ogg *.mp3 *.aac *.flac *.m4a *.oga *.opus)", "Excel files (*.xls *.xlsx *.csv)"])
+    dialog.setNameFilters(SETTINGS.INPUT_OPTIONS)
     selected_file = ""
     if dialog.exec_(): # Open a dialog window and waits. Finishes when file is selected.
         selected_file = dialog.selectedFiles()[0]
@@ -168,13 +167,13 @@ async def load_template_file(main_window):
                 with open(selected_file, 'r', encoding="utf-8") as file: 
                     template_file = parse_ass(file) 
                     template_file_format = 'ass-ssa'
-            elif selected_file.endswith('.xlsx') or selected_file.endswith('.xls'):
-                xl = pd.ExcelFile(selected_file)
+            elif selected_file.endswith('.xlsx'):
+                xl = ExcelFile(selected_file)
                 df = xl.parse(xl.sheet_names[0]) # Get first sheet only
                 template_file = df.iloc[:, 0].tolist() # Get all rows of the first column as a list
                 template_file_format = 'excel'
             elif selected_file.endswith('.csv'):
-                df = pd.read_csv(selected_file, header=None)
+                df = read_csv(selected_file, header=None)
                 template_file = df.iloc[:, 0].tolist()
                 template_file_format = 'excel'
             else:
@@ -183,7 +182,8 @@ async def load_template_file(main_window):
                     issue_warning_error(main_window, "No API Key", "Please provide an API key for the online model")
                     loading_gif(main_window, 'stop')
                     return        
-                srt_string = await asyncio.get_event_loop().run_in_executor(None, extract_text_from_video, main_window, selected_file, api_key_whisper)   
+                srt_string = await get_event_loop().run_in_executor(None, extract_text_from_video, main_window, selected_file, api_key_whisper)   
+                main_window.btn_save_transcription.setEnabled(True)
                 template_file = list(parse_srt(srt_string)) 
 
             # Only enable next button if input was processed correctly                      
@@ -200,7 +200,7 @@ async def load_template_file(main_window):
 
 # Extract audio. whether from a video or an audio, is stored as .wav
 def extract_text_from_video(main_window, selected_file, api_key_whisper):
-    unique_id = str(uuid.uuid4())
+    unique_id = str(uuid4())
     filename = f"{unique_id}.mp3"
 
     duration = main_window.duration.text()
@@ -216,10 +216,10 @@ def extract_text_from_video(main_window, selected_file, api_key_whisper):
         client = OpenAI(api_key = api_key_whisper)
         with open(filename, "rb") as audio_file: # Open read-only as binary
             output = client.audio.transcriptions.create(model="whisper-1", file=audio_file, response_format='srt')  
-        os.remove(filename)
+        remove(filename)
         return output 
     else:
-        device = 'gpu' if torch.cuda.is_available() else 'cpu'
+        device = 'gpu' if cuda.is_available() else 'cpu'
         model = WhisperModel(main_window.combo_model_size.currentText(), device=device)
         output, info = model.transcribe(filename)
         srt_string = ""
@@ -234,14 +234,14 @@ def extract_text_from_video(main_window, selected_file, api_key_whisper):
 
             text = segment.text
             srt_string += f"{i+1}\n{start_time} --> {end_time}\n{text}\n\n"
-        os.remove(filename)
+        remove(filename)
         return srt_string
     
-def save_template_file(main_window):
+def save_template_file(main_window, transcriptions):
     global template_file
     options = QFileDialog.Options()
 
-    if template_file_format == 'ass-ssa':
+    if template_file_format == 'ass-ssa' and not transcriptions:
         filter = "SubStation Alpha (*.ssa);;Advacned SubStation Alpha (*.ass)"
         fileName, _ = QFileDialog.getSaveFileName(None,"Save File", "", filter, options=options)
         if fileName:
@@ -254,21 +254,25 @@ def save_template_file(main_window):
                 template_file.dump_file(file)  
             QMessageBox.information(main_window, "File Saved", "File was written successfully!")
 
-    elif template_file_format == 'excel':
-        filter = "Excel Workbook (*.xlsx);;Excel 97-2003 Workbook (*.xls);;CSV Files (*.csv)"
+    elif template_file_format == 'excel' or transcriptions:
+        filter = "Excel Workbook (*.xlsx);;CSV Files (*.csv)"
         fileName, _ = QFileDialog.getSaveFileName(None,"Save File", "", filter, options=options)
         if fileName:
+            original_data = []
             translated_data = []
             for i in range(len(template_file)):
-                text_column = main_window.data_table.item(i, 1)
-                if text_column is not None:
-                    translated_data.append(text_column.text().strip())
+                text_column_first = main_window.data_table.item(i, 0)
+                text_column_second = main_window.data_table.item(i, 1)
+                if text_column_first is not None:
+                    original_data.append(text_column_first.text().strip())
+                if text_column_second is not None:
+                    translated_data.append(text_column_second.text().strip())
             
-            df = pd.DataFrame([template_file, translated_data]).T
+            df = DataFrame([original_data, translated_data]).T # Transpose
             if '.csv' in fileName:
                 df.to_csv(fileName, index=False, header=False, encoding="utf-8-sig")
             else:
-                df.to_excel(fileName, index=False, header=False, encoding="utf-8")
+                df.to_excel(fileName, index=False, header=False)
             QMessageBox.information(main_window, "File Saved", "File was written successfully!")
         
     else:
@@ -289,8 +293,6 @@ def check_inputs(main_window):
     global template_loaded      
     if not main_window.input.text() :
         issue_warning_error(main_window, "Warning", "Specify a template file")    
-    elif not main_window.target_language.text():
-        issue_warning_error(main_window, "Warning", "Specify a target language")
     else:
         main_window.StackedWidget.setCurrentWidget(main_window.PostProcessing)
         if template_loaded == True:
@@ -409,6 +411,21 @@ def create_sentences_dictionaries(main_window, input_size):
     
     return sentences_list
 
+def generate_prompt(main_window):
+    prompt = f"""The target language of translation is {main_window.target_language.currentText()}.
+The content genre is: {main_window.box_genre.currentText()}
+The Target Demographic is: {main_window.box_demo.currentText()}
+The Localization Approach is: {main_window.box_localization.currentText()}
+The Language Register is: {main_window.box_register.currentText()}
+The Cultural Adaptation is: {main_window.box_culture.currentText()}
+The Speaker Identification is: {main_window.box_speaker.currentText()}
+The Subtitle Length is: {main_window.box_subtitle.currentText()}
+The Reading Speed is: {main_window.box_speed.currentText()}
+The Sound Effects is: {main_window.box_sound.currentText()}
+    """
+    main_window.prompt_edit.setPlainText(prompt)
+
+
 def disable_some_buttons(main_window):
     main_window.btn_start.setIcon(QIcon(":/icons/images/icons/cil-media-pause.png"))
     main_window.btn_start.setText("Pause")
@@ -433,20 +450,6 @@ def enable_some_buttons(main_window):
     main_window.data_table.setFocusPolicy(Qt.StrongFocus)
     main_window.data_table.setSelectionMode(QAbstractItemView.ExtendedSelection)
 
-def gemini_call(api_client, prompt, json_string, temperature):
-    generation_config = genai.types.GenerationConfig(temperature=temperature)
-    return api_client.generate_content(prompt + json_string, generation_config=generation_config, safety_settings=SETTINGS.GEMINI_SAFETY)
-
-def openai_call(api_client, model, prompt, json_string, temperature):
-    return api_client.chat.completions.create (
-        model=model,
-        messages=[
-            {"role": "system", "content": prompt},
-            {"role": "user", "content": json_string}
-        ],
-        temperature=temperature
-    )  
-
 def loading_gif(main_window, status):
     if status == 'start':
         main_window.movie = QMovie(":/loading/images/loading.gif") 
@@ -457,6 +460,21 @@ def loading_gif(main_window, status):
     elif status == 'stop':
         main_window.loading_gif.hide()
         main_window.movie.stop()
+
+def gemini_call(api_client, prompt, json_string, temperature):
+    generation_config = types.GenerationConfig(temperature=temperature, response_mime_type='application/json')
+    return api_client.generate_content(prompt + json_string, generation_config=generation_config, safety_settings=SETTINGS.GEMINI_SAFETY)
+
+def openai_call(api_client, model, prompt, json_string, temperature):
+    return api_client.chat.completions.create (
+        model=model,
+        messages=[
+            {"role": "system", "content": prompt},
+            {"role": "user", "content": json_string}
+        ],
+        response_format={ "type": "json_object" },
+        temperature=temperature
+    )  
 
 @asyncSlot()
 async def communicate_with_api(main_window):
@@ -472,7 +490,6 @@ async def communicate_with_api(main_window):
         main_window.btn_start.setChecked(False)
         main_window.btn_start.setCheckable(True)
         return
-
 
     global async_signal_used
     global waiting_loop
@@ -491,43 +508,40 @@ async def communicate_with_api(main_window):
         model = SETTINGS.MODEL_MAP[main_window.combo_model.currentText()]
     
         # Define prompt
-        target_lang = main_window.target_language.text()
-        prompt = f"""
-            {main_window.prompt_edit.toPlainText()}
-            The target language of translation is {target_lang}.
-            This input is a JSON string. Please keep it as is and only replace the values with the translations.
-            """
+        prompt = main_window.prompt_edit.toPlainText()
+        prompt = prompt + """Input is JSON as follows: {"s_number": "original_text"}
+Simply replace the original_text with translated text.
+Response must be valid JSON
+        """
+        
         if model in SETTINGS.OPENAI_MODEL:
-            gpt_client = OpenAI(api_key = api_key) 
+            gpt_client = OpenAI(api_key = api_key)
         else:
-            genai.configure(api_key=api_key)
-            gemini_client = genai.GenerativeModel(model_name=model)
+            configure(api_key=api_key)
+            gemini_client = GenerativeModel(model_name=model)
 
         sentences_list = create_sentences_dictionaries(main_window, int(main_window.input_size.text()))
 
         row = 0 
         for _, outer_value in sentences_list.items():      
-            json_string = json.dumps(outer_value)    
+            json_string = dumps(outer_value)    
             try:   
                 while True:       
                     # These models are stateless, meaning they don't remember the messages from previous calls,
                     # so we need to append the prompt with every call              
                     if model in SETTINGS.OPENAI_MODEL:
-                        api_response = await asyncio.get_event_loop().run_in_executor(None, openai_call, gpt_client, model, prompt, json_string, (main_window.temp_slider.value() / 100.0))
+                        api_response = await get_event_loop().run_in_executor(None, openai_call, gpt_client, model, prompt, json_string, (main_window.temp_slider.value() / 100.0))
                         response = api_response.choices[0].message.content      
                     else:   
                         
-                        api_response = await asyncio.get_event_loop().run_in_executor(None, gemini_call, gemini_client, prompt, json_string, (main_window.temp_slider.value() / 100.0))
+                        api_response = await get_event_loop().run_in_executor(None, gemini_call, gemini_client, prompt, json_string, (main_window.temp_slider.value() / 100.0))
                         response = api_response.text
                         
                     # Extract response from JSON
                     try:
-                        translations_sentences = list(json.loads(response).values())
+                        translations_sentences = list(loads(response).values())
                     except:
-                        translations_sentences = re.findall(r'": "(.*?)(?="[,}])', response)
-                
-                    if len(translations_sentences) != len(outer_value.values()):
-                        continue
+                        continue # Try again
                 
                     for _, sentence in enumerate(translations_sentences):
                         item = QTableWidgetItem(sentence)

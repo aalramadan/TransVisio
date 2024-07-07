@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>891</width>
-    <height>655</height>
+    <width>1024</width>
+    <height>728</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,8 +19,8 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>0</width>
-    <height>0</height>
+    <width>1024</width>
+    <height>728</height>
    </size>
   </property>
   <property name="font">
@@ -57,27 +57,28 @@
 
 QWidget { 
 	font: 12pt &quot;Tahoma&quot;;
+	background-color: transparent;
+    color: rgb(221, 221, 221);
 }
 
 QFrame#loading_gif {
 	border: none;
 }
 
-QFrame#LeftMenuBar, #AboutFrame {
-	background-color: #6272a4;
+QWidget#CentralWidget {	
+	background-color: rgb(40, 44, 52);
 }
 
-QFrame#AboutFrame QTextBrowser{
-	color: white;
+QFrame#LeftMenuBar {	
+	background-color: rgb(33, 37, 43);
 }
 
-QFrame#SettingsExpand {
-	background-color: #495474;
+QPlainTextEdit#prompt_edit {
+	background-color: rgb(33, 37, 43);
 }
 
-QFrame#NextBox, #NavBox {
+QFrame#NextBox {
 	border: none;
-	background-color:#495474;
 }
 
 QFrame#ModelFrame {
@@ -85,43 +86,12 @@ QFrame#ModelFrame {
 	border: none;
 }
 
-QFrame#ModelFrame QLabel{
-    color: #f8f8f2;
-}
-
-QWidget#Home, #PostProcesing{
-	background-color: #495474;
-}
-
-QFrame#ContentBox{
-	background-color:#495474;
-}
-
 QFrame#ContentBox QPushButton{
-	background-color:  #6272a4;
 	border-radius: 8px;
 }
 
-QFrame#ContentBox QPushButton {
-	background-repeat: no-repeat; 
-	background-position: center;
-    color: #f8f8f2;
-    border: none;
-}
-QFrame#ContentBox QPushButton:hover {
-	background-color: #5d6c99;
-	border: 2px solid rgb(61, 70, 86);
-}
-QFrame#ContentBox QPushButton:pressed {	
-	background-color: rgb(0, 128, 255); /* Light blue*/
-	color: rgb(255, 255, 255);
-}
-QFrame#ContentBox QPushButton:disabled {
-	color: gray;
-}
-/* ///////////////////////////////////////////////////////////////////////////////////////////////// */
-QLabel {
-	color: white;
+QFrame#NextBox{
+	background-color: transparent;
 }
 /* ///////////////////////////////////////////////////////////////////////////////////////////////// */
 QScrollArea { background: transparent; }
@@ -144,16 +114,16 @@ QSlider::handle:horizontal {
 QPushButton {
 	background-repeat: no-repeat; 
 	background-position: center;
-    color: #f8f8f2;
-    border: none;
+	background-color: rgb(33, 37, 43);
+	border: none;
 }
 QPushButton:hover {
-	background-color: #5d6c99;
+	background-color: rgb(40, 44, 52);
 	border: 2px solid rgb(61, 70, 86);
 }
 QPushButton:pressed {	
 	background-color: rgb(0, 128, 255); /* Light blue*/
-	color: rgb(255, 255, 255);
+	border: 2px solid rgb(43, 50, 61);
 }
 QPushButton:disabled {
 	color: gray;
@@ -161,11 +131,11 @@ QPushButton:disabled {
 /* ///////////////////////////////////////////////////////////////////////////////////////////////// */
 QComboBox{
 	border-radius: 8px;
-	background-color: white;
-	color: black;
+	background-color: rgb(33, 37, 43);
+	border-radius: 8px;
 }
 QComboBox:hover{
-	border: 2px solid #7284b9;
+	border: 2px solid rgb(61, 70, 86);
 }
 QComboBox::drop-down {
 	background-image: url(:/icons/images/icons/cil-arrow-bottom.png);
@@ -173,8 +143,7 @@ QComboBox::drop-down {
 	background-repeat: no-repeat;
 }
 QComboBox QAbstractItemView {
-	background-color: white;
-	color: black;
+	background-color: rgb(33, 37, 43);
 	padding: 10px;
 	border-radius: 8px;
 }
@@ -184,9 +153,11 @@ QComboBox QAbstractItemView::item:selected {
 }
 /* ///////////////////////////////////////////////////////////////////////////////////////////////// */
 QTableWidget {
-	background-color: #495474;
-	gridline-color: #6272a4; 
-	color: white
+    gridline-color: rgb(33, 37, 43); 
+}
+
+QTableWidget QAbstractScrollArea {
+    background-color: transparent;
 }
 
 QTableWidget::item{
@@ -194,38 +165,31 @@ QTableWidget::item{
 	padding-right: 4px;
 }
 
-QTableWidget QAbstractScrollArea {
-    background-color: transparent;
-}
-
 QHeaderView::section{
-	background-color: #6272a4;
+	background-color: rgb(33, 37, 43);
 	padding: 4px;
-	color: white;
-	border: 1px solid #495474;
+    border: 1px solid rgb(44, 49, 60);
 }
 QTableWidget QTableCornerButton::section {
-    background-color: #6272a4;
-	border: 1px solid #495474;
+    background-color: rgb(33, 37, 43);
+	border: 1px solid rgb(44, 49, 60);
 }
 /* ///////////////////////////////////////////////////////////////////////////////////////////////// */
 QLineEdit {
 	border-radius: 8px;
-	background-color: white;
-    color: black;
+	background-color: rgb(33, 37, 43);
     selection-background-color: rgb(0, 128, 255);
 }
 QLineEdit:hover {
-	border: 2px solid #7284b9;
+	border: 2px solid rgb(64, 71, 86);
 }
 /* ///////////////////////////////////////////////////////////////////////////////////////////////// */
 QPlainTextEdit {
-	background-color: white;
-	color: black;
+	background-color: rgb(33, 37, 43);
 	selection-background-color: rgb(0, 128, 255);
 }
 QPlainTextEdit:hover {
-	border: 2px solid #7284b9;
+	border: 2px solid rgb(64, 71, 86);
 }
 QPlainTextEdit:focus {
 	border: 2px solid rgb(91, 101, 124);
@@ -294,10 +258,10 @@ QCheckBox::indicator {
     border: 3px solid rgb(52, 59, 72);
 	width: 15px;
 	height: 15px;
-    background-color: white;
+    background: rgb(44, 49, 60);
 }
 QCheckBox::indicator:hover {
-    border: 3px solid black;
+    border: 3px solid rgb(58, 66, 81);
 }
 QCheckBox::indicator:checked {
     background: 3px solid rgb(52, 59, 72);
@@ -309,7 +273,6 @@ QTextBrowser {
 	background-color: transparent;
 	border: none;
 }
-
 </string>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -429,7 +392,7 @@ QTextBrowser {
             </property>
             <property name="minimumSize">
              <size>
-              <width>0</width>
+              <width>45</width>
               <height>45</height>
              </size>
             </property>
@@ -548,7 +511,7 @@ QTextBrowser {
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-275</y>
+            <y>-236</y>
             <width>380</width>
             <height>1056</height>
            </rect>
@@ -670,11 +633,6 @@ QTextBrowser {
                 </item>
                 <item>
                  <property name="text">
-                  <string>GPT-4</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
                   <string>GPT-3.5 Turbo</string>
                  </property>
                 </item>
@@ -686,11 +644,6 @@ QTextBrowser {
                 <item>
                  <property name="text">
                   <string>Gemini 1.5 Flash</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Gemini 1.0 Pro</string>
                  </property>
                 </item>
                </widget>
@@ -1299,6 +1252,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
                 </property>
                 <item row="0" column="2">
                  <widget class="QCheckBox" name="chk_box_dark">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
@@ -1307,6 +1263,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
                   </property>
                   <property name="text">
                    <string>Dark</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
                   </property>
                  </widget>
                 </item>
@@ -1326,7 +1285,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                 <item row="0" column="1">
                  <widget class="QCheckBox" name="chk_box_light">
                   <property name="enabled">
-                   <bool>false</bool>
+                   <bool>true</bool>
                   </property>
                   <property name="minimumSize">
                    <size>
@@ -1341,7 +1300,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                    <bool>true</bool>
                   </property>
                   <property name="checked">
-                   <bool>true</bool>
+                   <bool>false</bool>
                   </property>
                  </widget>
                 </item>
@@ -1479,6 +1438,12 @@ li.checked::marker { content: &quot;\2612&quot;; }
                     <height>50</height>
                    </size>
                   </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>50</height>
+                   </size>
+                  </property>
                   <property name="text">
                    <string/>
                   </property>
@@ -1495,6 +1460,12 @@ li.checked::marker { content: &quot;\2612&quot;; }
                 </item>
                 <item row="0" column="0">
                  <widget class="QLabel" name="lbl_input">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
@@ -1567,25 +1538,95 @@ li.checked::marker { content: &quot;\2612&quot;; }
                 </property>
                 <item row="0" column="0">
                  <widget class="QLabel" name="lbl_language">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
                   <property name="text">
                    <string>Target Language</string>
                   </property>
                  </widget>
                 </item>
                 <item row="1" column="0">
-                 <widget class="QLineEdit" name="target_language">
+                 <widget class="QComboBox" name="target_language">
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
                     <height>50</height>
                    </size>
                   </property>
-                  <property name="text">
-                   <string>English</string>
-                  </property>
-                  <property name="placeholderText">
-                   <string/>
-                  </property>
+                  <item>
+                   <property name="text">
+                    <string>Arabic</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>English</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Spanish</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>German</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>French</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Chinese (Simplified)</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Chinese (Traditional)</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Hindi</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Japanese</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Russian</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Urdu</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Portuguese</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Vietnamese</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Bengali</string>
+                   </property>
+                  </item>
                  </widget>
                 </item>
                </layout>
@@ -1607,38 +1648,407 @@ li.checked::marker { content: &quot;\2612&quot;; }
                 <property name="spacing">
                  <number>6</number>
                 </property>
+                <item row="2" column="0">
+                 <widget class="QPlainTextEdit" name="prompt_edit"/>
+                </item>
                 <item row="1" column="0">
-                 <widget class="QPlainTextEdit" name="prompt_edit">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
+                 <widget class="QLabel" name="label_13">
+                  <property name="text">
+                   <string>Prompt</string>
                   </property>
-                  <property name="verticalScrollBarPolicy">
-                   <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
-                  </property>
-                  <property name="horizontalScrollBarPolicy">
-                   <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
-                  </property>
-                  <property name="lineWrapMode">
-                   <enum>QPlainTextEdit::LineWrapMode::NoWrap</enum>
-                  </property>
-                  <property name="plainText">
-                   <string>As a professional subtitle translator, your task is solely to translate subtitles. 
-There’s no need for you to reply to any messages. Please take note of the following:
-1) Keep sentences separate during translation. Do not combine them.
-2) Adapt any names in the subtitles to the target language.
-</string>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
                   </property>
                  </widget>
                 </item>
                 <item row="0" column="0">
-                 <widget class="QLabel" name="lbl_prompt">
-                  <property name="text">
-                   <string>Edit Prompt</string>
-                  </property>
-                 </widget>
+                 <layout class="QGridLayout" name="gridLayout">
+                  <item row="3" column="0">
+                   <widget class="QComboBox" name="box_register">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>Formal</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Neutral</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Informal</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Colloquial</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="label_4">
+                    <property name="text">
+                     <string>Content Genre</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignmentFlag::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="label_5">
+                    <property name="text">
+                     <string>Language Register</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignmentFlag::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <widget class="QComboBox" name="box_demo">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>Children (3-12)</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Teenagers (13-17)</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Young Adults (18-30)</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Adults (31-64)</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Seniors (65+)</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>General Audience</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="5" column="1">
+                   <widget class="QComboBox" name="box_speed">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>Slow (12 cps)</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Medium (15 cps)</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Fast (17 cps)</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Very Fast (20 cps)</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="5" column="0">
+                   <widget class="QComboBox" name="box_subtitle">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>Short (max 37 chars/line)</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Medium (max 42 chars/line)</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Long (max 50 chars/line)</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QComboBox" name="box_genre">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>Drama</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Comedy</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Action/Adventure</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Documentary</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>News/Current Affairs</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Educational</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Sci-Fi/Fantasy</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Animation</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="1" column="2">
+                   <widget class="QComboBox" name="box_localization">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>Source-Oriented</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Target-Oriented</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Neutral</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Transcreation</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="3" column="1">
+                   <widget class="QComboBox" name="box_culture">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>Minimal</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Moderate</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Extensive</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Explicative</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="5" column="2">
+                   <widget class="QComboBox" name="box_sound">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>None</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Minimal (key sounds only)</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Descriptive (all relevant sounds)</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Enhanced (sounds and music)</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="3" column="2">
+                   <widget class="QComboBox" name="box_speaker">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>None</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Dashes for Dialogue</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Color-Coded</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Speaker Names</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="4" column="0">
+                   <widget class="QLabel" name="label_6">
+                    <property name="text">
+                     <string>Subtitle Length</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignmentFlag::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QLabel" name="label_7">
+                    <property name="text">
+                     <string>Target Demographic</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignmentFlag::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="QLabel" name="label_8">
+                    <property name="text">
+                     <string>Cultural Adaptation</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignmentFlag::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="1">
+                   <widget class="QLabel" name="label_9">
+                    <property name="text">
+                     <string>Reading Speed</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignmentFlag::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="2">
+                   <widget class="QLabel" name="label_10">
+                    <property name="text">
+                     <string>Localization Approach</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignmentFlag::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="2">
+                   <widget class="QLabel" name="label_11">
+                    <property name="text">
+                     <string>Speaker Identification</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignmentFlag::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="2">
+                   <widget class="QLabel" name="label_12">
+                    <property name="text">
+                     <string>Sound Effects</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignmentFlag::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </item>
                </layout>
               </item>
@@ -1849,7 +2259,7 @@ There’s no need for you to reply to any messages. Please take note of the foll
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>150</width>
+                     <width>155</width>
                      <height>40</height>
                     </size>
                    </property>
@@ -1881,7 +2291,7 @@ There’s no need for you to reply to any messages. Please take note of the foll
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>150</width>
+                     <width>155</width>
                      <height>40</height>
                     </size>
                    </property>
@@ -1910,7 +2320,7 @@ There’s no need for you to reply to any messages. Please take note of the foll
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>150</width>
+                     <width>155</width>
                      <height>40</height>
                     </size>
                    </property>
@@ -1936,7 +2346,7 @@ There’s no need for you to reply to any messages. Please take note of the foll
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>150</width>
+                     <width>155</width>
                      <height>40</height>
                     </size>
                    </property>
@@ -1945,6 +2355,32 @@ There’s no need for you to reply to any messages. Please take note of the foll
                    </property>
                    <property name="icon">
                     <iconset theme="media-playlist-repeat"/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="btn_save_transcription">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>155</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Save Transcription</string>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="resources.qrc">
+                     <normaloff>:/icons/images/icons/cil-save.png</normaloff>:/icons/images/icons/cil-save.png</iconset>
                    </property>
                   </widget>
                  </item>
@@ -1967,7 +2403,7 @@ There’s no need for you to reply to any messages. Please take note of the foll
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>150</width>
+                     <width>155</width>
                      <height>40</height>
                     </size>
                    </property>

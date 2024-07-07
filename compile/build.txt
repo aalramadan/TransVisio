@@ -1,8 +1,11 @@
 Build (Windows):
 pyinstaller --windowed --hidden-import=tiktoken_ext.openai_public --hidden-import=tiktoken_ext --icon="C:\Users\Ali\Desktop\TransVisio\images\images\icon.ico" main.py
+nuitka --standalone --windows-console-mode=disable --msvc=latest --enable-plugin=pyside6 --module-parameter=torch-disable-jit=no --module-parameter=numba-disable-jit=no --noinclude-numba-mode=nofollow --windows-icon-from-ico="C:\Users\Ali\Desktop\TransVisio\images\images\icon.ico" main.py
 
 Build (Mac OS):
 pyinstaller --onefile --windowed --hidden-import=tiktoken_ext.openai_public --hidden-import=tiktoken_ext --icon="/Users/Ali/Desktop/TransVisio/images/images/icon.icns" main.py
 
 
 * Use for debugging --> --console instead of --windowed 
+
+
