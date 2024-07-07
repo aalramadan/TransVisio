@@ -17,11 +17,12 @@
 ## **Features**
 
 - Inputs supported: </br>
-Subtitle files (*.srt *.ass *.ssa). </br>
-Video files (*.mp4 *.mkv *.webm *.flv *.avi *.mov *.wmv *.m4v). </br>
-Audio files (*.wav *.ogg *.mp3 *.aac *.flac *.m4a *.oga *.opus). </br>
-Excel files (*.xlsx *.csv). </br>
-
+```
+Subtitle files (*.srt *.ass *.ssa). 
+Video files (*.mp4 *.mkv *.webm *.flv *.avi *.mov *.wmv *.m4v).
+Audio files (*.wav *.ogg *.mp3 *.aac *.flac *.m4a *.oga *.opus). 
+Excel files (*.xlsx *.csv).
+```
 - You can **save** video/audio transcription to Excel.
 
 - You can specify the number of **input sentences**.
@@ -38,9 +39,10 @@ Excel files (*.xlsx *.csv). </br>
 
 - Light and Dark themes.
 
-> Note: Make sure that you specify the **Start Time** and **Duration** before selecting the video/audio input.
-> Online Whisper requires an API key and is limited to 25 MB input size.
-> Offline Whisper does not require a key, but must download a model on the first use.
+> Note: </br>
+> Make sure that you specify the **Start Time** and **Duration** before selecting the video/audio input.</br>
+> Online Whisper requires an API key and is limited to 25 MB input size.</br>
+> Offline Whisper does not require a key, but must download a model (e.g., tiny, small, etc.) on the first use.
 
 ## **Demo**
 ![Animation](https://github.com/aalramadan/TransVisio/assets/55710790/c4d47cb7-ca61-4779-ac78-68bd4591d95e)
