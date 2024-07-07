@@ -1,5 +1,6 @@
 # **TransVisio**
-![image](https://github.com/aalramadan/TransVisio/assets/55710790/e3c631d6-1c8d-4fd4-b122-9cbceb302ac1)
+![image](https://github.com/aalramadan/TransVisio/assets/55710790/090c74e7-6d86-428a-853f-4c93154d61f0)
+
 
 ## **💡What does it do?**
 **TransVisio** provides translations for multiple languages using Large Language Models (LLMs). It takes inputs in various formats (e.g., subtitle file or a video) and it extracts the text  
@@ -8,11 +9,9 @@
 
 - **GPT 4o**
 - **GPT 4 Turbo**
-- **GPT 4**
 - **GPT 3 Turbo**
 - **Gemini 1.5 Pro**
 - **Gemini 1.5 Flash**
-- **Gemini 1.0 Pro**
 - **Whisper 20231117** 
 ## **Features**
 
@@ -20,8 +19,10 @@
 Subtitle files (*.srt *.ass *.ssa). </br>
 Video files (*.mp4 *.mkv *.webm *.flv *.avi *.mov *.wmv *.m4v). </br>
 Audio files (*.wav *.ogg *.mp3 *.aac *.flac *.m4a *.oga *.opus). </br>
-Excel files (*.xls *.xlsx *.csv). </br>
+Excel files (*.xlsx *.csv). </br>
 
+- You can **save** video/audio transcription to Excel.
+- 
 - You can specify the number of **input sentences**.
 
 - You can **pause/resume** translation at any point.
@@ -39,8 +40,7 @@ Excel files (*.xls *.xlsx *.csv). </br>
 > Note: Make sure that you specify the API key for Whisper along with the **Start Time** and **Duration** before selecting the video/audio input.
 
 ## **Demo**
-![Animation](https://github.com/aalramadan/TransVisio/assets/55710790/f127b1d4-da6b-4033-bd01-da5c2c87cd16)
-
+![Animation](https://github.com/aalramadan/TransVisio/assets/55710790/c4d47cb7-ca61-4779-ac78-68bd4591d95e)
 
 ## **Disclaimer**
 **TransVisio** is part of a collaborative research funded by the Abdul Hameed Shoman Foundation (Agreement Number: 230800351). </br>
