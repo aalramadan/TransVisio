@@ -12,7 +12,8 @@
 - **GPT 3 Turbo**
 - **Gemini 1.5 Pro**
 - **Gemini 1.5 Flash**
-- **Whisper 20231117** 
+- **Whisper 20231117 (Online)**
+- **Faster-Whisper v1.0.3 (Offline)**
 ## **Features**
 
 - Inputs supported: </br>
@@ -22,7 +23,7 @@ Audio files (*.wav *.ogg *.mp3 *.aac *.flac *.m4a *.oga *.opus). </br>
 Excel files (*.xlsx *.csv). </br>
 
 - You can **save** video/audio transcription to Excel.
-- 
+
 - You can specify the number of **input sentences**.
 
 - You can **pause/resume** translation at any point.
@@ -37,7 +38,9 @@ Excel files (*.xlsx *.csv). </br>
 
 - Light and Dark themes.
 
-> Note: Make sure that you specify the API key for Whisper along with the **Start Time** and **Duration** before selecting the video/audio input.
+> Note: Make sure that you specify the **Start Time** and **Duration** before selecting the video/audio input.
+> Online Whisper requires an API key and is limited to 25 MB input size.
+> Offline Whisper does not require a key, but must download a model on the first use.
 
 ## **Demo**
 ![Animation](https://github.com/aalramadan/TransVisio/assets/55710790/c4d47cb7-ca61-4779-ac78-68bd4591d95e)
