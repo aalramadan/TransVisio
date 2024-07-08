@@ -4,8 +4,11 @@ nuitka --standalone --windows-console-mode=disable --msvc=latest --enable-plugin
 
 Build (Mac OS):
 pyinstaller --onefile --windowed --hidden-import=tiktoken_ext.openai_public --hidden-import=tiktoken_ext --icon="/Users/Ali/Desktop/TransVisio/images/images/icon.icns" main.py
+nuitka3 --standalone --windows-console-mode=disable --clang --macos-create-app-bundle --enable-plugin=pyside6 --module-parameter=torch-disable-jit=no --module-parameter=numba-disable-jit=no --noinclude-numba-mode=nofollow --macos-app-icon="/Users/Ali/Desktop/TransVisio/images/images/icon.icns" --windows-icon-from-ico="/Users/Ali/Desktop/TransVisio/images/images/icon.icns" main.py
 
+You might need to manually download ccache-4.2.1.zip and move it to:
+/Users/ali/library/Caches/Nuitka/downloads/ccache/v4.2.1
 
-* Use for debugging --> --console instead of --windowed 
+* Use for debugging --> --console instead of --windowed
 
 
