@@ -9,6 +9,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.loop = loop or ui_functions.get_event_loop()
 
         self.setupUi(self) # Initializes ui_main.py
+        
         ui_functions.generate_prompt(self)
 
         # .connect can call a function, but can't pass argument to it 

@@ -157,7 +157,6 @@ def issue_warning_error(main_window, title, text):
 @asyncSlot()
 async def load_template_file(main_window):
     loading_gif(main_window, 'start')
-    main_window.btn_next.setEnabled(False)
     main_window.btn_save.setEnabled(False)
     global template_loaded
     global template_file
@@ -549,11 +548,12 @@ Response must be valid JSON
                         response = api_response.text
                         
                     # Extract response from JSON
-                    try:
-                        translations_sentences = list(loads(response).values())
-                    except:
-                        continue # Try again
-                
+                   
+                    translations_sentences = list(loads(response).values())
+
+                    if len(translations_sentences) != len(outer_value.values()):
+                        continue
+
                     for _, sentence in enumerate(translations_sentences):
                         item = QTableWidgetItem(sentence)
                         main_window.data_table.setItem(row, 1, item)
