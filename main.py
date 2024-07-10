@@ -19,11 +19,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.btn_save_transcription.clicked.connect(lambda: ui_functions.save_template_file(self, True))
         self.btn_next.clicked.connect(lambda: ui_functions.check_inputs(self))
         self.btn_start.clicked.connect(lambda: ui_functions.communicate_with_api(self))    
-        self.btn_back.clicked.connect(lambda: ui_functions.button_click(self, self.btn_back))    
+        self.btn_back.clicked.connect(lambda: ui_functions.button_click(self, self.btn_back))   
+         
         self.btn_settings.clicked.connect(lambda: ui_functions.expand_settings(self))
+        self.btn_info.clicked.connect(lambda: ui_functions.expand_about(self))
+
         self.data_table.itemSelectionChanged.connect(lambda: ui_functions.items_selected(self))
         self.btn_delete_row.clicked.connect(lambda: ui_functions.delete_row(self))
-        self.btn_info.clicked.connect(lambda: ui_functions.expand_about(self))
         self.btn_reverse.clicked.connect(lambda: ui_functions.change_text_direction(self))
         self.chk_box_dark.clicked.connect(lambda: ui_functions.theme_switch(self, self.chk_box_dark))
         self.chk_box_light.clicked.connect(lambda: ui_functions.theme_switch(self, self.chk_box_light))

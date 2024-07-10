@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import (QMessageBox, QFileDialog, QTableWidgetItem,
                                QHeaderView,QAbstractItemView, QStyledItemDelegate, QTableWidgetItem)
-from PySide6.QtCore import QSize, QEasingCurve, QPropertyAnimation, Qt, QFile, QTextStream
+from PySide6.QtCore import QSize, QEasingCurve, QPropertyAnimation, Qt, QFile, QTextStream, QTimer
 from PySide6.QtGui import QIcon, QMovie
 from srt import parse as parse_srt, compose as compose_srt
 from ass import parse as parse_ass
@@ -10,14 +10,12 @@ from asyncio import sleep, get_event_loop, set_event_loop
 from audio_extract import extract_audio
 from faster_whisper import WhisperModel
 from datetime import timedelta
-from torch import cuda
-from pandas import ExcelFile, read_csv, DataFrame
+from pandas import read_excel, read_csv, DataFrame
 from json import loads, dumps
-from re import findall
 from google.generativeai import GenerativeModel, configure, types
 from os import environ, remove
 from uuid import uuid4
-
+from torch import cuda
 
 environ["KMP_DUPLICATE_LIB_OK"]="TRUE" # Needed to get faster-whisper to work
 
@@ -116,7 +114,7 @@ def switch_whisper_models(main_window):
         main_window.api_key_whisper.setEnabled(True)
         main_window.combo_model_size.setEnabled(False)
 
-def animate_widget(main_window, widget, next_widget=None):
+def animate_widget(main_window, widget, next_widget=None): 
     width = widget.width()
     width_extended = SETTINGS.EXPAND_WIDTH if width == 0 else 0
     main_window.animate_expand = QPropertyAnimation(widget, b"minimumWidth")
@@ -126,18 +124,31 @@ def animate_widget(main_window, widget, next_widget=None):
     main_window.animate_expand.setEasingCurve(QEasingCurve.InOutQuart)
     main_window.animate_expand.finished.connect(lambda: animate_widget(main_window, next_widget) if next_widget else None)
     main_window.animate_expand.start()
+    
 
 def expand_settings(main_window):
+    main_window.btn_settings.setEnabled(False)
+    main_window.btn_info.setEnabled(False)
     if main_window.AboutFrame.width() == SETTINGS.EXPAND_WIDTH:
         animate_widget(main_window, main_window.AboutFrame, main_window.SettingsExpand)
+        QTimer.singleShot(2 * SETTINGS.TIME_ANIMATION, lambda: enable_buttons(main_window)) 
     else:
         animate_widget(main_window, main_window.SettingsExpand)
+        QTimer.singleShot(SETTINGS.TIME_ANIMATION, lambda: enable_buttons(main_window)) 
 
 def expand_about(main_window):
+    main_window.btn_settings.setEnabled(False)
+    main_window.btn_info.setEnabled(False)
     if main_window.SettingsExpand.width() == SETTINGS.EXPAND_WIDTH:
         animate_widget(main_window, main_window.SettingsExpand, main_window.AboutFrame)
+        QTimer.singleShot(2 * SETTINGS.TIME_ANIMATION, lambda: enable_buttons(main_window)) 
     else:
         animate_widget(main_window, main_window.AboutFrame)
+        QTimer.singleShot(SETTINGS.TIME_ANIMATION, lambda: enable_buttons(main_window)) 
+
+def enable_buttons(main_window):
+    main_window.btn_settings.setEnabled(True)
+    main_window.btn_info.setEnabled(True)
 
 
 def issue_warning_error(main_window, title, text): 
@@ -147,6 +158,7 @@ def issue_warning_error(main_window, title, text):
 async def load_template_file(main_window):
     loading_gif(main_window, 'start')
     main_window.btn_next.setEnabled(False)
+    main_window.btn_save.setEnabled(False)
     global template_loaded
     global template_file
     global template_file_format
@@ -168,13 +180,12 @@ async def load_template_file(main_window):
                     template_file = parse_ass(file) 
                     template_file_format = 'ass-ssa'
             elif selected_file.endswith('.xlsx'):
-                xl = ExcelFile(selected_file)
-                df = xl.parse(xl.sheet_names[0]) # Get first sheet only
-                template_file = df.iloc[:, 0].tolist() # Get all rows of the first column as a list
+                xl = read_excel(selected_file, sheet_name=0, header=None) # First sheet only
+                template_file = xl.iloc[:, 0].tolist() # Get all rows of the first column as a list
                 template_file_format = 'excel'
             elif selected_file.endswith('.csv'):
-                df = read_csv(selected_file, header=None)
-                template_file = df.iloc[:, 0].tolist()
+                xl = read_csv(selected_file)
+                template_file = xl.iloc[:, 0].tolist()
                 template_file_format = 'excel'
             else:
                 api_key_whisper =  main_window.api_key_whisper.text().strip()
@@ -241,7 +252,7 @@ def save_template_file(main_window, transcriptions):
     global template_file
     options = QFileDialog.Options()
 
-    if template_file_format == 'ass-ssa' and not transcriptions:
+    if template_file_format == 'ass-ssa':
         filter = "SubStation Alpha (*.ssa);;Advacned SubStation Alpha (*.ass)"
         fileName, _ = QFileDialog.getSaveFileName(None,"Save File", "", filter, options=options)
         if fileName:
@@ -291,7 +302,7 @@ def save_template_file(main_window, transcriptions):
 
 def check_inputs(main_window):
     global template_loaded      
-    if not main_window.input.text() :
+    if not main_window.input.text():
         issue_warning_error(main_window, "Warning", "Specify a template file")    
     else:
         main_window.StackedWidget.setCurrentWidget(main_window.PostProcessing)
@@ -412,7 +423,7 @@ def create_sentences_dictionaries(main_window, input_size):
     return sentences_list
 
 def generate_prompt(main_window):
-    prompt = f"""The target language of translation is {main_window.target_language.currentText()}.
+    prompt = f"""The target language of translation is {main_window.target_language.currentText()}
 The content genre is: {main_window.box_genre.currentText()}
 The Target Demographic is: {main_window.box_demo.currentText()}
 The Localization Approach is: {main_window.box_localization.currentText()}
