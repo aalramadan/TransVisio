@@ -1,5 +1,5 @@
 Build (Windows):
-pyinstaller --noconsole --icon="C:\Users\Ali\Desktop\TransVisio\images\images\icon.ico" main.py
+pyinstaller --windowed --icon="C:\Users\Ali\Desktop\TransVisio\images\images\icon.ico" main.py
 
 Build (Mac OS):
 pyinstaller --onefile --windowed --icon="/Users/Ali/Desktop/TransVisio/images/images/icon.icns" main.py
