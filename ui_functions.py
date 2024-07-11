@@ -13,7 +13,7 @@ from datetime import timedelta
 from pandas import read_excel, read_csv, DataFrame
 from json import loads, dumps
 from google.generativeai import GenerativeModel, configure, types
-from os import environ, remove
+from os import environ, remove, path
 from uuid import uuid4
 from torch import cuda
 
@@ -211,7 +211,7 @@ async def load_template_file(main_window):
 # Extract audio. whether from a video or an audio, is stored as .wav
 def extract_text_from_video(main_window, selected_file, api_key_whisper):
     unique_id = str(uuid4())
-    filename = f"{unique_id}.mp3"
+    filename = path.join(path.dirname(selected_file), f"{unique_id}.mp3")
 
     duration = main_window.duration.text()
     if duration == "Max" or duration == "max":

@@ -34,7 +34,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.combo_model.currentIndexChanged.connect(lambda: ui_functions.reset_temp_slider(self))
         self.combo_model_whisper.currentIndexChanged.connect(lambda: ui_functions.switch_whisper_models(self))
 
-
+        self.target_language.currentIndexChanged.connect(lambda: ui_functions.generate_prompt(self))
         self.box_genre.currentIndexChanged.connect(lambda: ui_functions.generate_prompt(self))
         self.box_demo.currentIndexChanged.connect(lambda: ui_functions.generate_prompt(self))
         self.box_localization.currentIndexChanged.connect(lambda: ui_functions.generate_prompt(self))
