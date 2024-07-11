@@ -230,7 +230,7 @@ def extract_text_from_video(main_window, selected_file, api_key_whisper):
         return output 
     else:
         device = 'gpu' if cuda.is_available() else 'cpu'
-        model = WhisperModel(main_window.combo_model_size.currentText(), device=device)
+        model = WhisperModel(main_window.combo_model_size.currentText(), device=device, download_root=path.dirname(selected_file))
         output, info = model.transcribe(filename)
         srt_string = ""
         for i, segment in enumerate(output):
