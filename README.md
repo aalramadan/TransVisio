@@ -39,7 +39,3 @@ Excel files (*.xlsx *.csv).
 > Offline Whisper does not require a key but requires downloading a model (e.g., tiny, small) on the first use.
 
 ![Animation](https://github.com/aalramadan/TransVisio/assets/55710790/c4d47cb7-ca61-4779-ac78-68bd4591d95e)
-
-## **Disclaimer**
-- **TransVisio** is part of a collaborative research funded by the Abdul Hameed Shoman Foundation (Agreement Number: 230800351). </br>
-- Hosting Institution: The project is hosted by the English Language and Translation Department at the Applied Science Private University.</br>
